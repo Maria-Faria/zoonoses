@@ -50,6 +50,7 @@ model users {
   user_code Int
   name      String   @db.VarChar
   admin     Boolean? @default(false)
+  password  String   @db.VarChar
 }
 
 enum gender {
