@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model address {
+  id                             Int      @id @default(autoincrement())
+  state                          String   @db.VarChar
+  city                           String   @db.VarChar
+  neighborhood                   String   @db.VarChar
+  road                           String   @db.VarChar
+  number                         Int
+  tutors_tutors_addressToaddress tutors[] @relation("tutors_addressToaddress")
+}
+
+model pets {
+  public_id  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  protocol   Int      @default(autoincrement())
+  age        Int?
+  size_pet   size
+  input_type String   @db.VarChar
+  input_date DateTime @db.Date
+  specie     String   @db.VarChar
+  breed      String?  @db.VarChar
+  color      String   @db.VarChar
+  weight     Float
+  pet_gender gender
+  plate      Int?
+  microchip  String?  @db.VarChar
+  id_tutor   String?  @db.Uuid
+  tutors     tutors?  @relation(fields: [id_tutor], references: [public_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tutor")
+}
+
+model tutors {
+  public_id                       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  cpf                             String   @unique @db.VarChar
+  name                            String   @db.VarChar
+  phones                          String[]
+  address                         Int
+  pets                            pets[]
+  address_tutors_addressToaddress address  @relation("tutors_addressToaddress", fields: [address], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_address")
+}
+
+model users {
+  public_id String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_code Int
+  name      String   @db.VarChar
+  admin     Boolean? @default(false)
+}
+
+enum gender {
+  f_mea @map("fêmea")
+  macho
+}
+
+enum size {
+  pequeno
+  m_dio   @map("médio")
+  grande
+}
