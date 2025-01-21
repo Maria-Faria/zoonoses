@@ -28,6 +28,17 @@ export const validateUserToCreate = (user: User) => {
   });
 
   return partialUserSchema.safeParse(user);
+};
+
+//LOGIN
+export const validateUserToLogin = (user: User) => {
+  const partialUserSchema = userSchema.partial({
+    public_id: true,
+    admin: true,
+    name: true
+  });
+
+  return partialUserSchema.safeParse(user);
 }
 export async function createUser(user: User) {
   const result = await prisma.users.create({
@@ -41,4 +52,18 @@ export async function createUser(user: User) {
   });
 
   return result;
+}
+
+export async function getUserByCode(user_code: number) {
+  const user = await prisma.users.findUnique({
+    where: { user_code: user_code},
+    select: {
+      public_id: true,
+      user_code: true,
+      name: true,
+      password: true
+    }
+  });
+
+  return user;
 }
