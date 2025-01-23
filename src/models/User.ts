@@ -5,7 +5,7 @@ export interface User {
   public_id?: string;
   user_code: number;
   name: string;
-  admin?: boolean;
+  admin?: boolean | undefined | null;
   password: string;
 }
 
@@ -15,15 +15,14 @@ const userSchema = z.object({
   public_id: z.string({ required_error: "Id é obrigatório" }),
   user_code: z.number({ required_error: "Código é obrigatório", invalid_type_error: "Código deve ser um número" }).positive({ message: "O código deve ser um número positivo" }),
   name: z.string({ required_error: "Nome é obrigatório", invalid_type_error: "Nome deve ser uma string" }),
-  admin: z.boolean({ required_error: "Admin é obrigatório", invalid_type_error: "Admin deve ser um booleano" }),
-  password: z.string({ required_error: "Senha é obrigatória", invalid_type_error: "Senha deve ser uma string" })
+  password: z.string({ required_error: "Senha é obrigatória", invalid_type_error: "Senha deve ser uma string" }),
+  admin: z.boolean().nullable()
 });
 
 // CREATE 
 export const validateUserToCreate = (user: User) => {
   const partialUserSchema = userSchema.partial({
     public_id: true,
-    admin: true,
     password: true
   });
 
@@ -34,8 +33,8 @@ export const validateUserToCreate = (user: User) => {
 export const validateUserToLogin = (user: User) => {
   const partialUserSchema = userSchema.partial({
     public_id: true,
-    admin: true,
-    name: true
+    name: true,
+    admin: true
   });
 
   return partialUserSchema.safeParse(user);
@@ -61,7 +60,8 @@ export async function getUserByCode(user_code: number) {
       public_id: true,
       user_code: true,
       name: true,
-      password: true
+      password: true,
+      admin: true
     }
   });
 
