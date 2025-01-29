@@ -75,7 +75,6 @@ export async function getUserById(public_id: string) {
       public_id: true,
       user_code: true,
       name: true,
-      password: true,
       admin: true
     }
   });
