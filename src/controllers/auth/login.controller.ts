@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { getUserByCode } from "../../models/User";
+import { getUserByCode, User } from "../../models/User";
 import { validateUserToLogin } from "../../models/User";
 import bcrypt from "bcrypt";
-import { sign } from "jsonwebtoken";
+import { getToken } from "./getToken";
 
 const loginController = async (req: Request, res: Response): Promise<any> => {
   try {
@@ -25,18 +25,7 @@ const loginController = async (req: Request, res: Response): Promise<any> => {
     const passIsValid = bcrypt.compareSync(password, userValidated.data.password);
 
     if (passIsValid) {
-      const tokenData = {
-        user_code: userValidated.data.user_code,
-        name: userValidated.data.name,
-      };
-
-      const tokenKey = "1234567890";
-      const tokenOption = {
-        subject: userValidated.data.public_id,
-        expiresIn: "2h"
-      }
-
-      const token = sign(tokenData, tokenKey, tokenOption);
+      const token = await getToken(userValidated.data.user_code, userValidated.data.name, userValidated.data.public_id);
       
       return res.status(200).json({ token });
     

@@ -67,3 +67,18 @@ export async function getUserByCode(user_code: number) {
 
   return user;
 }
+
+export async function getUserById(public_id: string) {
+  const user = await prisma.users.findUnique({
+    where: { public_id },
+    select: {
+      public_id: true,
+      user_code: true,
+      name: true,
+      password: true,
+      admin: true
+    }
+  });
+
+  return user;
+}
