@@ -20,6 +20,7 @@ const createUserController = async (req: Request, res: Response): Promise<any> =
     const newUser: User = {
       user_code: validatedUser.data.user_code,
       name: validatedUser.data.name,
+      email: validatedUser.data.email,
       password: validatedUser.data.password
     }
 

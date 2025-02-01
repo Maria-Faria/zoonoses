@@ -3,8 +3,9 @@ import { z } from "zod";
 
 export interface User {
   public_id?: string;
-  user_code: number;
+  user_code: string;
   name: string;
+  email: string;
   admin?: boolean | undefined | null;
   password: string;
 }
@@ -13,8 +14,9 @@ const prisma = new PrismaClient();
 
 const userSchema = z.object({
   public_id: z.string({ required_error: "Id é obrigatório" }),
-  user_code: z.number({ required_error: "Código é obrigatório", invalid_type_error: "Código deve ser um número" }).positive({ message: "O código deve ser um número positivo" }),
+  user_code: z.string({ required_error: "Código é obrigatório"}),
   name: z.string({ required_error: "Nome é obrigatório", invalid_type_error: "Nome deve ser uma string" }),
+  email: z.string({ required_error: "Email é obrigatório", invalid_type_error: "Email deve ser uma string" }),
   password: z.string({ required_error: "Senha é obrigatória", invalid_type_error: "Senha deve ser uma string" }),
   admin: z.boolean().nullable()
 });
@@ -46,6 +48,7 @@ export async function createUser(user: User) {
       public_id: true,
       user_code: true,
       name: true,
+      email: true,
       admin: true
     }
   });
@@ -53,13 +56,14 @@ export async function createUser(user: User) {
   return result;
 }
 
-export async function getUserByCode(user_code: number) {
+export async function getUserByCode(user_code: string) {
   const user = await prisma.users.findUnique({
     where: { user_code: user_code},
     select: {
       public_id: true,
       user_code: true,
       name: true,
+      email: true,
       password: true,
       admin: true
     }

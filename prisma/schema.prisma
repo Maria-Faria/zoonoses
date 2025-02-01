@@ -47,8 +47,9 @@ model tutors {
 
 model users {
   public_id  String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_code  Int         @unique
+  user_code  String      @unique  @db.VarChar
   name       String      @db.VarChar
+  email      String      @unique  @db.VarChar
   admin      Boolean?    @default(false)
   password   String      @db.VarChar
   userTokens userTokens?

@@ -1,5 +1,5 @@
 import { sign } from "jsonwebtoken";
-export const getToken = async (user_code: number, name: string | undefined, public_id: string | undefined, expiresIn: string, tokenKey: string) : Promise<string> => {
+export const getToken = async (user_code: string, name: string | undefined, public_id: string | undefined, expiresIn: string, tokenKey: string) : Promise<string> => {
   const tokenData = {
     user_code,
     name
