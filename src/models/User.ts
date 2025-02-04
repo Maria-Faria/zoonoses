@@ -85,3 +85,30 @@ export async function getUserById(public_id: string) {
 
   return user;
 }
+
+export async function saveCodeResetPassword(email: string, code: string) {
+  await prisma.userResetPassword.create({
+    data: {
+      email,
+      code
+    }
+  });
+}
+
+export async function getCodeResetPassword(email: string) {
+  const user = await prisma.userResetPassword.findUnique({
+    where: { email },
+    select: {
+      email: true,
+      code: true
+    }
+  });
+
+  return user;
+}
+
+export async function deleteCodeResetPassword(email: string) {
+  await prisma.userResetPassword.delete({
+    where: { email }
+  });
+}

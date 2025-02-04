@@ -5,13 +5,13 @@ import bcrypt from "bcrypt";
 import { getToken } from "./config/getToken";
 import { insertToken } from "../../models/Auth";
 
-const loginController = async (req: Request, res: Response): Promise<any> => {
+const loginController = async (req: Request, res: Response): Promise<any> => {  
   try {
     const { user_code, password } = req.body;
     const user = await getUserByCode(user_code);
 
     if(!user) {
-      return res.status(400).send("Usuário e/ou senha inválidos!");
+      return res.status(400).json({error: "Usuário e/ou senha inválidos!"});
     }
 
     const userValidated = validateUserToLogin(user);
@@ -34,11 +34,11 @@ const loginController = async (req: Request, res: Response): Promise<any> => {
       return res.status(200).json({ accessToken });
     
     }else {
-      return res.status(400).send("Usuário e/ou senha inválidos!");
+      return res.status(400).json({error: "Usuário e/ou senha inválidos!"});
     }
 
   } catch (error) {
-    return res.status(500).send("Erro no servidor!");
+    return res.status(500).json({error: "Erro no servidor!"});
   }
 }
 

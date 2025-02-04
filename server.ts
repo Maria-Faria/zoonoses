@@ -3,7 +3,7 @@ import userRouter from "./src/routers/userRouter";
 import authRouter from "./src/routers/authRouter";
 import "dotenv/config";
 
-const PORT = 3000;
+const PORT = 4000;
 
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
