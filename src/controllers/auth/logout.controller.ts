@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { deleteUserToken } from "../../models/Auth";
 
 const logoutController = async (req: Request, res: Response): Promise<any> => {
-  const id_user = req.params.public_id;
+  const { refreshToken } = req.body;
 
   try {
-    await deleteUserToken(id_user);
+    await deleteUserToken(refreshToken);
 
     return res.status(201).send("Logout realizado com sucesso!");
 

@@ -112,3 +112,16 @@ export async function deleteCodeResetPassword(email: string) {
     where: { email }
   });
 }
+
+export async function updatePassword(user_code: string, password: string) {
+  const user = await prisma.users.update({
+    where: { user_code },
+    data: {password},
+    select: {
+      user_code: true,
+      password : true
+    }
+  });
+
+  return user;
+}

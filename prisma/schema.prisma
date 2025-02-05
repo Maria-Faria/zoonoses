@@ -58,7 +58,7 @@ model users {
 model userTokens {
   public_id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_id      String @unique @db.Uuid
-  refreshToken String @db.VarChar
+  refreshToken String @unique @db.VarChar
   user         users  @relation(fields: [user_id], references: [public_id])
 }
 

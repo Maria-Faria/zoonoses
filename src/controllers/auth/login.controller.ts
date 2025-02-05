@@ -30,8 +30,7 @@ const loginController = async (req: Request, res: Response): Promise<any> => {
       const refreshToken = await getToken(userValidated.data.user_code, userValidated.data.name, userValidated.data.public_id, "1d", process.env.REFRESH_TOKEN_KEY || "785632");
       
       await insertToken(user.public_id, refreshToken);
-
-      return res.status(200).json({ accessToken });
+      return res.status(200).json({ accessToken, refreshToken });
     
     }else {
       return res.status(400).json({error: "Usuário e/ou senha inválidos!"});

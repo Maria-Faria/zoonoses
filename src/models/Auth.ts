@@ -30,8 +30,19 @@ export async function getUserToken(user_id: string) {
   return userToken;
 }
 
-export async function deleteUserToken(user_id: string) {
+export async function deleteUserToken(refreshToken: string) {
   await prisma.userTokens.delete({
-    where: {user_id}
+    where: {refreshToken}
   });
+}
+
+export async function getRefreshToken(refreshToken: string) {
+  const userToken = await prisma.userTokens.findUnique({
+    where: {refreshToken},
+    select: {
+      refreshToken: true
+    }
+  });
+
+  return userToken;
 }

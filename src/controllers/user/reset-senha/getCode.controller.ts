@@ -13,10 +13,10 @@ const getCodeController = async (req: Request, res: Response): Promise<any> => {
       return res.status(404).json({ error: "Usuário não encontrado!"});
     }
 
-    await saveCodeResetPassword(user.email, code.toString());
-
     const sendEmailSuccess = sendEmail(code, user.email);
     const emailResponse = await sendEmailSuccess;
+
+    await saveCodeResetPassword(user.email, code.toString());
 
     if(emailResponse == "Erro ao enviar email!") {
       return res.status(400).json({ error: "Erro ao enviar email!"});
