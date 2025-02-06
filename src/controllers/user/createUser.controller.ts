@@ -2,13 +2,14 @@ import { createUser, validateUserToCreate } from "../../models/User";
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { User } from "../../models/User";
+import sendEmail from "./reset-senha/sendEmail.controller";
 
 const createUserController = async (req: Request, res: Response): Promise<any> => {
   try {
     const user = req.body;
     const validatedUser = validateUserToCreate(user);
 
-    if(validatedUser?.error) {
+    if(validatedUser?.error || !validatedUser?.success) {
       return res.status(400).json({
         error: "Erro ao criar um novo usuário! Verifique os dados!",
         fieldErrors: validatedUser.error.flatten().fieldErrors
@@ -26,13 +27,33 @@ const createUserController = async (req: Request, res: Response): Promise<any> =
 
     const result = await createUser(newUser);
 
-    return res.status(200).json(result);
+    const emailContent = `
+      Olá, seu acesso ao sistema de Zoonoses foi criado.
+      Para realizar seu primeiro acesso, na <a href="http://localhost:3000/login">tela de login</a>, digite a senha abaixo para realizar o login: <br><br> <h1 style="text-align: center">${validatedUser.data.name.split(" ")[0]}#${validatedUser.data.user_code}</h1>
+      <br><br>
+      Atenciosamente, <br>
+      <img src="https://i.ibb.co/6crKmrft/Design-sem-nome.png">
+    `;
 
-  } catch (error) {
-    console.log(error);
+    const sendEmailSuccess = sendEmail(newUser.email, emailContent, "Criação de acesso ao sistema de Zoonoses");
+    const emailResponse = await sendEmailSuccess;
 
-    return res.status(400).json({
-      error: error
+    if(emailResponse == "Erro ao enviar email!") {
+      return res.status(400).json({ error: "Erro ao enviar email!"});
+    }
+
+    return res.status(200).json({message: "Usuário cadastrado com sucesso! A senha padrão para login foi enviada para o e-mail institucional do usuário cadastrado."});
+
+  } catch (error: any) {
+    console.log(error)
+    if(error.code == 'P2002') {
+      return res.status(400).json({
+        error: "Usuário já cadastrado!"
+      })
+    }
+
+    return res.status(500).json({
+      error: `${error} - Erro interno de servidor`
     })
   }
 };

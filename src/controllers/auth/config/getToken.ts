@@ -5,7 +5,6 @@ export const getToken = async (user_code: string, name: string | undefined, publ
     name
   };
 
-  console.log(typeof(public_id))
   const tokenOption = {
     subject: public_id,
     expiresIn: expiresIn

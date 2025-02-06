@@ -14,7 +14,7 @@ router.post("/validate-code", verifyCodeController);
 router.post("/new-password", updatePasswordController);
 
 router.get("/dashboard", verifyAuth, getUserController);
-router.post("/:public_id", verifyAuth, verifyRole, createUserController);
+router.post("/new-user", verifyAuth, verifyRole, createUserController);
 
 
 export default router;

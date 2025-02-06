@@ -13,7 +13,14 @@ const getCodeController = async (req: Request, res: Response): Promise<any> => {
       return res.status(404).json({ error: "Usuário não encontrado!"});
     }
 
-    const sendEmailSuccess = sendEmail(code, user.email);
+    const emailContent = `
+      Olá, recebemos sua solicitação para redefinir sua senha. Digite o código abaixo para redefinir a senha: <br><br> <h1 style="text-align: center">${code}</h1>
+      <br><br>
+      Atenciosamente, <br>
+      <img src="https://i.ibb.co/6crKmrft/Design-sem-nome.png">
+    `;
+
+    const sendEmailSuccess = sendEmail(user.email, emailContent, "Solicitação para redefinição de senha");
     const emailResponse = await sendEmailSuccess;
 
     await saveCodeResetPassword(user.email, code.toString());

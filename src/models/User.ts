@@ -25,7 +25,8 @@ const userSchema = z.object({
 export const validateUserToCreate = (user: User) => {
   const partialUserSchema = userSchema.partial({
     public_id: true,
-    password: true
+    password: true,
+    admin: true
   });
 
   return partialUserSchema.safeParse(user);

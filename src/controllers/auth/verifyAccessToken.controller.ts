@@ -11,7 +11,6 @@ const verifyAccessTokenController = async(req: Request, res: Response): Promise<
     return res.status(200).json({message: "Token válido"});
 
   } catch (error) {
-    console.log(error)
     return res.status(401).json({ error: "Não autorizado"});
   }
 }

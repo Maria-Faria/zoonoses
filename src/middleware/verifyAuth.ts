@@ -9,11 +9,12 @@ export async function verifyAuth(req: Request, res: Response, next: Function) {
 
     try {
       
-      verify(token, process.env.ACCESS_TOKEN_KEY || "123456");      
+      verify(token, process.env.ACCESS_TOKEN_KEY as string);      
       return next();
 
     } catch (error) {
-      return res.status(401).json({ error: "Não autorizado! Token expirado!"});
+      return res.status(401).json({ error: `Token de acesso expirado! 
+      Recarregue a página e tente novamente.`});
     }
   }
 
