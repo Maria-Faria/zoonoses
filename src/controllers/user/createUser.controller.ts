@@ -44,8 +44,7 @@ const createUserController = async (req: Request, res: Response): Promise<any> =
 
     return res.status(200).json({message: "Usuário cadastrado com sucesso! A senha padrão para login foi enviada para o e-mail institucional do usuário cadastrado."});
 
-  } catch (error: any) {
-    console.log(error)
+  } catch (error: Error | any) {
     if(error.code == 'P2002') {
       return res.status(400).json({
         error: "Usuário já cadastrado!"

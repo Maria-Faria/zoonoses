@@ -68,6 +68,12 @@ model userResetPassword {
   code         String      @unique  @db.VarChar
 }
 
+model services {
+  public_id  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type       String   @unique @db.VarChar
+  price      Float
+}
+
 enum gender {
   f_mea @map("fêmea")
   macho
