@@ -46,11 +46,32 @@ model tutors {
 }
 
 model users {
-  public_id String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_code Int
-  name      String   @db.VarChar
-  admin     Boolean? @default(false)
-  password  String   @db.VarChar
+  public_id  String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_code  String      @unique  @db.VarChar
+  name       String      @db.VarChar
+  email      String      @unique  @db.VarChar
+  admin      Boolean?    @default(false)
+  password   String      @db.VarChar
+  userTokens userTokens?
+}
+
+model userTokens {
+  public_id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id      String @unique @db.Uuid
+  refreshToken String @unique @db.VarChar
+  user         users  @relation(fields: [user_id], references: [public_id])
+}
+
+model userResetPassword {
+  public_id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email        String      @unique  @db.VarChar
+  code         String      @unique  @db.VarChar
+}
+
+model services {
+  public_id  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type       String   @unique @db.VarChar
+  price      Float
 }
 
 enum gender {
