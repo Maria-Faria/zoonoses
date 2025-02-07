@@ -13,8 +13,20 @@ model address {
   city                           String   @db.VarChar
   neighborhood                   String   @db.VarChar
   road                           String   @db.VarChar
-  number                         Int
+  number                         String   @db.VarChar
+
   tutors_tutors_addressToaddress tutors[] @relation("tutors_addressToaddress")
+  hospital                       hospital[]
+}
+
+model hospital {
+  id                           Int      @id @default(autoincrement())
+  name                         String   @db.VarChar
+  phone                        String   @db.VarChar
+  email                        String?  @db.VarChar
+  address_id                   Int
+
+  address                      address  @relation(fields: [address_id], references: [id])
 }
 
 model pets {
