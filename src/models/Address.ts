@@ -19,3 +19,9 @@ export async function insertAddress(state: string, city: string, neighborhood: s
 
   return address;
 }
+
+export async function getAddress() {
+  const address = await prisma.address.findMany();
+
+  return address;
+}

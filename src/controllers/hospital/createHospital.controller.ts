@@ -1,19 +1,49 @@
 import { Request, Response } from "express";
-import { insertAddress } from "../../models/Address";
-import { insertHospital } from "../../models/Hospital";
+import { getAddress, insertAddress } from "../../models/Address";
+import { getHospitals, insertHospital } from "../../models/Hospital";
 
 const createHospitalController = async (req: Request, res: Response): Promise<any> => {
-  const { name, phone, email = null, state, city, neighborhood, road, number } = req.body;
+  const { name, phone, state, city, neighborhood, road, number } = req.body;
+  let addressId = 0;
 
   try {
-    const hospitalAddress = await insertAddress(state, city, neighborhood, road, number);
-    const hospital = await insertHospital(name, phone, email, hospitalAddress.id);
+    const allHospitals = await getHospitals();
+    const allAddresses = await getAddress();
 
-    if(!hospital) {
-      return res.status(400).json({error: "Erro ao cadastrar a clínica!"});
+    let flag = false;
+    let addressExists = false;
+
+    allHospitals.map((item) => {
+      if(item.name == name) {
+        flag = true;
+      }
+    });
+
+    allAddresses.map((item) => {
+      if(item.state == state && item.city == city && item.road == road && item.number == number) {
+        addressExists = true;
+        addressId = item.id;
+      }
+    });
+
+    if(!flag) {
+
+      if(!addressExists) {
+        const hospitalAddress = await insertAddress(state, city, neighborhood, road, number);
+        addressId = hospitalAddress.id;
+      }
+      
+      const hospital = await insertHospital(name, phone, addressId);
+  
+      if(!hospital) {
+        return res.status(400).json({error: "Erro ao cadastrar a clínica!"});
+      }
+  
+      return res.status(201).json({message: "Clínica cadastrada com sucesso!"});
+    
+    }else {
+      return res.status(400).json({error: "Clínica já cadastrada!"});
     }
-
-    return res.status(201).json({message: "Clínica cadastrada com sucesso!"});
     
   } catch (error) {
     return res.status(500).json({error: `${error} - Erro interno de servidor`});

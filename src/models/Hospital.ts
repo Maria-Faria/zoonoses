@@ -2,12 +2,11 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function insertHospital(name: string, phone: string, email: string | null, address_id: number) {
+export async function insertHospital(name: string, phone: string, address_id: number) {
   const hospital = await prisma.hospital.create({
     data: {
       name, 
       phone,
-      email, 
       address_id
     },
 
@@ -17,4 +16,10 @@ export async function insertHospital(name: string, phone: string, email: string 
   });
 
   return hospital;
+}
+
+export async function getHospitals() {
+  const hospitals = await prisma.hospital.findMany();
+
+  return hospitals;
 }

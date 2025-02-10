@@ -23,7 +23,6 @@ model hospital {
   id                           Int      @id @default(autoincrement())
   name                         String   @db.VarChar
   phone                        String   @db.VarChar
-  email                        String?  @db.VarChar
   address_id                   Int
 
   address                      address  @relation(fields: [address_id], references: [id])
@@ -34,7 +33,7 @@ model pets {
   protocol   Int      @default(autoincrement())
   age        Int?
   size_pet   size
-  input_type String   @db.VarChar
+  input_type input_type   
   input_date DateTime @db.Date
   specie     String   @db.VarChar
   breed      String?  @db.VarChar
@@ -95,4 +94,17 @@ enum size {
   pequeno
   m_dio   @map("médio")
   grande
+}
+
+enum input_type {
+  recolhido
+  entregue
+  abandonado
+}
+
+enum specie {
+  canino
+  felino
+  ave
+  outros
 }
