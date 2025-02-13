@@ -8,31 +8,32 @@ datasource db {
 }
 
 model address {
-  id                             Int      @id @default(autoincrement())
-  state                          String   @db.VarChar
-  city                           String   @db.VarChar
-  neighborhood                   String   @db.VarChar
-  road                           String   @db.VarChar
-  number                         Int
-  tutors_tutors_addressToaddress tutors[] @relation("tutors_addressToaddress")
+  id                             Int        @id @default(autoincrement())
+  state                          String     @db.VarChar
+  city                           String     @db.VarChar
+  neighborhood                   String     @db.VarChar
+  road                           String     @db.VarChar
+  number                         String     @db.VarChar
+  hospital                       hospital[]
+  tutors_tutors_addressToaddress tutors[]   @relation("tutors_addressToaddress")
 }
 
 model pets {
-  public_id  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  protocol   Int      @default(autoincrement())
+  public_id  String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  protocol   Int        @default(autoincrement())
   age        Int?
   size_pet   size
-  input_type String   @db.VarChar
-  input_date DateTime @db.Date
-  specie     String   @db.VarChar
-  breed      String?  @db.VarChar
-  color      String   @db.VarChar
+  input_date DateTime   @db.Date
+  specie     String     @db.VarChar
+  breed      String?    @db.VarChar
+  color      String     @db.VarChar
   weight     Float
   pet_gender gender
   plate      Int?
-  microchip  String?  @db.VarChar
-  id_tutor   String?  @db.Uuid
-  tutors     tutors?  @relation(fields: [id_tutor], references: [public_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tutor")
+  microchip  String?    @db.VarChar
+  id_tutor   String?    @db.Uuid
+  input_type input_type
+  tutors     tutors?    @relation(fields: [id_tutor], references: [public_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tutor")
 }
 
 model tutors {
@@ -47,9 +48,9 @@ model tutors {
 
 model users {
   public_id  String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_code  String      @unique  @db.VarChar
+  user_code  String      @unique @db.VarChar
   name       String      @db.VarChar
-  email      String      @unique  @db.VarChar
+  email      String      @unique @db.VarChar
   admin      Boolean?    @default(false)
   password   String      @db.VarChar
   userTokens userTokens?
@@ -63,15 +64,23 @@ model userTokens {
 }
 
 model userResetPassword {
-  public_id    String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email        String      @unique  @db.VarChar
-  code         String      @unique  @db.VarChar
+  public_id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email     String @unique @db.VarChar
+  code      String @unique @db.VarChar
 }
 
 model services {
-  public_id  String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  type       String   @unique @db.VarChar
-  price      Float
+  public_id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type      String @unique @db.VarChar
+  price     Float
+}
+
+model hospital {
+  id         Int     @id @default(autoincrement())
+  name       String  @db.VarChar
+  phone      String  @db.VarChar
+  address_id Int
+  address    address @relation(fields: [address_id], references: [id])
 }
 
 enum gender {
@@ -83,4 +92,17 @@ enum size {
   pequeno
   m_dio   @map("médio")
   grande
+}
+
+enum input_type {
+  recolhido
+  entregue
+  abandonado
+}
+
+enum specie {
+  canino
+  felino
+  ave
+  outros
 }
