@@ -1,6 +1,16 @@
 import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
+
+export interface Address {
+  id?: number;
+  state: string;                          
+  city: string;                           
+  neighborhood: string;      
+  road: string; 
+  number: number;
+}
 
 export async function insertAddress(state: string, city: string, neighborhood: string, road: string, number: string) {
   const address = await prisma.address.create({
@@ -17,8 +27,12 @@ export async function insertAddress(state: string, city: string, neighborhood: s
     }
   });
 
-  return address;
+  return {
+    success: true,
+    data: address
+  };
 }
+
 
 export async function getAddress() {
   const address = await prisma.address.findMany();

@@ -30,7 +30,7 @@ const createHospitalController = async (req: Request, res: Response): Promise<an
 
       if(!addressExists) {
         const hospitalAddress = await insertAddress(state, city, neighborhood, road, number);
-        addressId = hospitalAddress.id;
+        addressId = hospitalAddress.data.id;
       }
       
       const hospital = await insertHospital(name, phone, addressId);

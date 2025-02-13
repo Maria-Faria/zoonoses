@@ -3,6 +3,7 @@ import userRouter from "./src/routers/userRouter";
 import authRouter from "./src/routers/authRouter";
 import serviceRouter from "./src/routers/serviceRouter";
 import hospitalRouter from "./src/routers/hospitalRouter";
+import tutorRouter from "./src/routers/tutorRouter";
 
 import "dotenv/config";
 
@@ -12,6 +13,7 @@ app.use("/user", userRouter);
 app.use("/auth", authRouter);
 app.use("/service", serviceRouter);
 app.use("/hospital", hospitalRouter);
+app.use("/tutor", tutorRouter);
 
 app.listen(PORT, () => {
   console.log("Servidor rodando")
