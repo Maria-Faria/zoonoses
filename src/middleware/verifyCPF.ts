@@ -20,6 +20,3 @@ export function verifyCPF(value: string){
     return getVerifyingDigit(digits.slice(0, 9)) === digits[9]
         && getVerifyingDigit(digits.slice(0, 10)) === digits[10];
 }
-
-const teste = verifyCPF('43508967832');
-console.log(teste);
