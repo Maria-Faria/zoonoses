@@ -5,6 +5,8 @@ import { createAddress } from "../../models/Address";
 export const createTutorController: RequestHandler = async (req, res) => {
   try {
     const { address, ...tutorData } = req.body.tutor;
+
+    console.log(tutorData);
     
     if (!address.state || !address.city || !address.neighborhood || !address.road || !tutorData.name || !tutorData.cpf || !tutorData.phones) {
       res.status(400).json({ message: "Dados inválidos! O campo 'tutor' e 'address' são obrigatórios." });

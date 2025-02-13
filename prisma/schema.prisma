@@ -34,6 +34,8 @@ model pets {
   id_tutor   String?    @db.Uuid
   input_type input_type
   tutors     tutors?    @relation(fields: [id_tutor], references: [public_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tutor")
+
+  records records[]
 }
 
 model tutors {
@@ -44,6 +46,8 @@ model tutors {
   address                         Int
   pets                            pets[]
   address_tutors_addressToaddress address  @relation("tutors_addressToaddress", fields: [address], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_address")
+
+  records records[]
 }
 
 model users {
@@ -73,6 +77,8 @@ model services {
   public_id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   type      String @unique @db.VarChar
   price     Float
+
+  records records[]
 }
 
 model hospital {
@@ -81,6 +87,18 @@ model hospital {
   phone      String  @db.VarChar
   address_id Int
   address    address @relation(fields: [address_id], references: [id])
+}
+
+model records {
+id         Int     @id @default(autoincrement())
+pet_id     String  @db.Uuid
+tutor_id   String  @db.Uuid
+service_id String  @db.Uuid
+date       DateTime @db.Date  @default(now())
+
+pets       pets    @relation(fields: [pet_id], references: [public_id])
+tutors     tutors  @relation(fields: [tutor_id], references: [public_id])
+services   services@relation(fields: [service_id], references: [public_id])
 }
 
 enum gender {
