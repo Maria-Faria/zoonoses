@@ -50,6 +50,7 @@ model records {
   pet_id     String   @db.Uuid
   tutor_id   String   @db.Uuid
   service_id String   @db.Uuid
+  price      Float    @db.Real
   date       DateTime @default(now()) @db.Date
   pets       pets     @relation(fields: [pet_id], references: [public_id])
   services   services @relation(fields: [service_id], references: [public_id])
