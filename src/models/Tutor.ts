@@ -90,3 +90,5 @@ export const verifyCPFInDatabase = async (cpf: string) => {
   });
   return result;
 }
+
+console.log("Tutor model");
