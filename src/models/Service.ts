@@ -16,3 +16,22 @@ export async function insertService(type: string, price: number) {
 
   return service;
 }
+
+export async function getServices() {
+  const services = await prisma.services.findMany();
+
+  return services;
+}
+
+export async function getServiceByType(type: string) {
+  const service = await prisma.services.findUnique({
+    where: {
+      type
+    },
+    select: {
+      public_id: true
+    }
+  });
+
+  return service;
+}

@@ -9,6 +9,7 @@ datasource db {
 
 model address {
   id                             Int        @id @default(autoincrement())
+  cep                            String     @db.VarChar
   state                          String     @db.VarChar
   city                           String     @db.VarChar
   neighborhood                   String     @db.VarChar
@@ -38,7 +39,7 @@ model pets {
   weight     Float
   pet_gender gender
   plate      Int?
-  microchip  String?    @db.VarChar
+  microchip  String?    @db.VarChar @unique
   id_tutor   String?    @db.Uuid
   input_type input_type
   tutors     tutors?    @relation(fields: [id_tutor], references: [public_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tutor")
@@ -49,11 +50,10 @@ model records {
   id         Int      @id @default(autoincrement())
   pet_id     String   @db.Uuid
   tutor_id   String   @db.Uuid
-  service_id String   @db.Uuid
+  services   String[]
   price      Float    @db.Real
   date       DateTime @default(now()) @db.Date
   pets       pets     @relation(fields: [pet_id], references: [public_id])
-  services   services @relation(fields: [service_id], references: [public_id])
   tutors     tutors   @relation(fields: [tutor_id], references: [public_id])
 }
 
@@ -61,14 +61,13 @@ model services {
   public_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   type      String    @unique @db.VarChar
   price     Float
-  records   records[]
 }
 
 model tutors {
   public_id                       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   cpf                             String    @unique @db.VarChar
   name                            String    @db.VarChar
-  phones                          String[]
+  phone                           String     @db.VarChar
   address                         Int
   pets                            pets[]
   records                         records[]
@@ -99,7 +98,7 @@ model users {
 }
 
 enum gender {
-  f_mea @map("fêmea")
+  femea 
   macho
 }
 
@@ -111,7 +110,7 @@ enum input_type {
 
 enum size {
   pequeno
-  m_dio   @map("médio")
+  medio
   grande
 }
 

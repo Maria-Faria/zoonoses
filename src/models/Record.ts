@@ -2,12 +2,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function insertRecord(tutor_id: string, pet_id: string, service_id: string, price: number) {
+export async function insertRecord(tutor_id: string, pet_id: string, services: string[], price: number) {
   const record = await prisma.records.create({
     data: {
       tutor_id,
       pet_id,
-      service_id,
+      services,
       price
     },
 

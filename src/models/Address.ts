@@ -12,9 +12,12 @@ export interface Address {
   number: number;
 }
 
-export async function insertAddress(state: string, city: string, neighborhood: string, road: string, number: string) {
+export async function insertAddress(cep: string, state: string, city: string, neighborhood: string, road: string, number: string) {
+  console.log("insertAddress");
+  console.log(cep, state, city, neighborhood, road, number);
   const address = await prisma.address.create({
     data: {
+      cep,
       state,
       city,
       neighborhood,
@@ -36,6 +39,20 @@ export async function insertAddress(state: string, city: string, neighborhood: s
 
 export async function getAddress() {
   const address = await prisma.address.findMany();
+
+  return address;
+}
+
+export async function getAddressById(id: number) {
+  const address = await prisma.address.findUnique({
+    where: {
+      id
+    },
+    select: {
+      cep: true,
+      number: true
+    }
+  });
 
   return address;
 }

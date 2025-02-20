@@ -9,7 +9,7 @@ export interface Tutor {
   public_id?: string;                       
   cpf: string;                             
   name: string;   
-  phones: string[];                 
+  phone: string;                 
   address: number;                 
   pets?: string[];                          
 }
@@ -32,21 +32,19 @@ const tutorSchema = z.object({
 })
 .min(3, {message: 'The user name must have at least 3 letters. '})
 .max(250, {message: 'The user name must be a maximum of 200 characters.'}),
-phones: z.array(z.string({
+phone: z.string({
   invalid_type_error: 'The phones must be a string.',
   required_error: 'Phone required.'
 })
 .min(10, {message: 'The telephone number must have at least 10 digits'})
-.max(11, {message: 'The phone must be a maximum of 11 digits.'})),
+.max(15, {message: 'The phone must be a maximum of 11 digits.'}),
 cpf: CPFSchema,
 address: z.number(),
 });
 
 export const createTutor = async (tutor: Tutor) => {
-  const result = tutorSchema.safeParse(tutor);
-
-  console.log(tutor);
-  
+  console.log(tutor)
+  const result = tutorSchema.safeParse(tutor);  
 
   if(!result.success) { 
     return {
@@ -63,8 +61,11 @@ export const createTutor = async (tutor: Tutor) => {
       data: {
         name: validatedData.name,
         cpf: validatedData.cpf,
-        phones: validatedData.phones,
+        phone: validatedData.phone,
         address: validatedData.address,
+      },
+      select: {
+        public_id: true,
       }
     });
 
@@ -86,6 +87,12 @@ export const verifyCPFInDatabase = async (cpf: string) => {
   const result = await prisma.tutors.findFirst({
     where: {
       cpf
+    },
+    select: {
+      public_id: true,
+      name: true,
+      phone: true,
+      address: true
     }
   });
   return result;
