@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
-import { insertRecord } from "../../models/Record";
+import { insertRecord, insertRecord_service } from "../../models/Record";
 import { getAddress, insertAddress } from "../../models/Address";
 import { createTutor, verifyCPFInDatabase } from "../../models/Tutor";
 import { createPet, getPetByMicrochip } from "../../models/Pet";
 import { getServiceByType } from "../../models/Service";
 
-interface ServiceInterface {
+export interface ServiceInterface {
   name: string;
-  qtd: number;
+  qtd?: number;
   price: number;
-  total: number;
+  total?: number;
 }
 
 const createRecordController = async (req: Request, res: Response): Promise<any> => {
-  const {tutor, pet, service, totalPrice} = req.body;
+  const {tutor, pet, service, inputQtd, totalPrice} = req.body;
 
   try {
     const cpfExists = await verifyCPFInDatabase(tutor.cpf.replace(/[^0-9]/g, ''));
@@ -24,13 +24,16 @@ const createRecordController = async (req: Request, res: Response): Promise<any>
     let services_id: string[] = [];
 
     const services = service.services.map((item: ServiceInterface) => {
-      return item.name;
+      return {
+        type: item.name,
+        qtd: item.qtd,
+      }
     });
 
-
     for(let i = 0; i < services.length; i++) {
-      const id = await getServiceByType(services[i]);
+      const id = await getServiceByType(services[i].type);
       services_id.push(id?.public_id as string);
+      services[i].id = id?.public_id as string;
     }
 
     if(!cpfExists) {
@@ -57,10 +60,13 @@ const createRecordController = async (req: Request, res: Response): Promise<any>
       pet_id = (await createPet(parseInt(pet.age), pet.size, <Date>pet.inputDate, pet.specie, pet.breed, pet.color, parseFloat(pet.weight), pet.gender, parseInt(pet.plate), pet.microchip, tutor_id, pet.inputType)).public_id;
     }
 
-    const record = await insertRecord(tutor_id, pet_id, services_id, parseFloat(totalPrice));
-    console.log(record);
+    const record = await insertRecord(tutor_id, pet_id, parseFloat(totalPrice));
+    
+    for(let i = 0; i < services.length; i++) {
+      await insertRecord_service(record.id, services[i].id, services[i].qtd);
+    }
 
-    return res.status(201).json({message: "Ficha cadastrada com sucesso!"});
+    return res.status(201).json({message: "Ficha cadastrada com sucesso!", id: record.id});
 
   } catch (error) {
     return res.status(500).json({error: `${error} - Erro interno de servidor`});

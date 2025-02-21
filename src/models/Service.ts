@@ -35,3 +35,15 @@ export async function getServiceByType(type: string) {
 
   return service;
 }
+
+export async function getServiceById(id: string) {
+  const service = await prisma.services.findUnique({
+    where: {public_id: id},
+    select: {
+      type: true,
+      price: true
+    }
+  });
+  
+  return service;
+}

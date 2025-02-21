@@ -82,7 +82,6 @@ export const createTutor = async (tutor: Tutor) => {
   }
 }
 
-
 export const verifyCPFInDatabase = async (cpf: string) => {
   const result = await prisma.tutors.findFirst({
     where: {
@@ -95,5 +94,40 @@ export const verifyCPFInDatabase = async (cpf: string) => {
       address: true
     }
   });
+  return result;
+}
+
+export async function getTutorById(id: string) {
+  const tutor = await prisma.tutors.findUnique({
+    where: {public_id: id},
+    select: {
+      cpf: true,
+      name: true,
+      address: true,
+      phone: true
+    }
+  });
+
+  return tutor;
+}
+
+export async function updateTutor(tutor_id: string, name: string, phone: string, address: number) {
+  const result = await prisma.tutors.update({
+    where: {
+      public_id: tutor_id
+    },
+    data: {
+      name,
+      phone,
+      address
+    },
+    select: {
+      public_id: true,
+      name: true,
+      address: true,
+      phone: true
+    }
+  });
+
   return result;
 }

@@ -56,3 +56,24 @@ export async function getAddressById(id: number) {
 
   return address;
 }
+
+export async function updateAddress(id: number, cep: string, state: string, city: string, neighborhood: string, road: string, number: string) {
+  const address = await prisma.address.update({
+    where: {
+      id
+    },
+    data: {
+      cep,
+      state,
+      city,
+      neighborhood,
+      road,
+      number
+    },
+    select: {
+      id: true
+    }
+  });
+
+  return address;
+}
