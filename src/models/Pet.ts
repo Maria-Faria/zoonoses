@@ -52,7 +52,8 @@ export async function getPetById(id: string) {
       pet_gender: true,
       plate: true,
       id_tutor: true,
-      input_type: true
+      input_type: true,
+      protocol: true,
     }
   });
 

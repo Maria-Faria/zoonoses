@@ -63,3 +63,9 @@ export async function getRecordById(id: number) {
 
   return record;
 }
+
+export async function getAllRecords() {
+  const records = await prisma.records.findMany({});
+
+  return records;
+}
