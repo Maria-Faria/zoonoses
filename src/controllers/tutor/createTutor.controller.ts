@@ -31,11 +31,11 @@ export const createTutorController: RequestHandler = async (req, res) => {
     });
 
     if(!addressExists) {
-      const registerAddress = await insertAddress(address.state, address.city, address.neighborhood, address.road, address.number as string);
+      const registerAddress = await insertAddress(address.cep, address.state, address.city, address.neighborhood, address.road, address.number as string);
       addressId = registerAddress.data.id;
     }
 
-    const registerAddress = await insertAddress(address.state, address.city, address.neighborhood, address.road, address.number as string);
+    const registerAddress = await insertAddress(address.cep, address.state, address.city, address.neighborhood, address.road, address.number as string);
 
     if (!registerAddress?.success || !registerAddress.data?.id) {
       res.status(400).json({ message: "Erro ao cadastrar endereço" });

@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 
 export interface Address {
   id?: number;
+  cep: string;
   state: string;                          
   city: string;                           
   neighborhood: string;      
@@ -12,9 +13,10 @@ export interface Address {
   number: number;
 }
 
-export async function insertAddress(state: string, city: string, neighborhood: string, road: string, number: string) {
+export async function insertAddress(cep:string, state: string, city: string, neighborhood: string, road: string, number: string) {
   const address = await prisma.address.create({
     data: {
+      cep,
       state,
       city,
       neighborhood,

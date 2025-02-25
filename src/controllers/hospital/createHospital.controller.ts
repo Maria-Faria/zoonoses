@@ -3,7 +3,7 @@ import { getAddress, insertAddress } from "../../models/Address";
 import { getHospitals, insertHospital } from "../../models/Hospital";
 
 const createHospitalController = async (req: Request, res: Response): Promise<any> => {
-  const { name, phone, state, city, neighborhood, road, number } = req.body;
+  const { name, phone, cep, state, city, neighborhood, road, number } = req.body;
   let addressId = 0;
 
   try {
@@ -29,7 +29,7 @@ const createHospitalController = async (req: Request, res: Response): Promise<an
     if(!flag) {
 
       if(!addressExists) {
-        const hospitalAddress = await insertAddress(state, city, neighborhood, road, number);
+        const hospitalAddress = await insertAddress(cep, state, city, neighborhood, road, number);
         addressId = hospitalAddress.data.id;
       }
       
