@@ -3,7 +3,7 @@ import { getAllRecords } from "../../models/Record";
 import { getTutorById } from "../../models/Tutor";
 import { getPetById } from "../../models/Pet";
 
-interface RecordDataInterface {
+export interface RecordDataInterface {
   id: number | undefined;
   cpf: string | undefined;
   name_tutor: string | undefined;
