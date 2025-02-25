@@ -1,7 +1,6 @@
 import {  PrismaClient } from "@prisma/client";
 import { z } from "zod";
 import { verifyCPF } from "../middleware/verifyCPF";
-import {  Address } from "./Address";
 
 const prisma = new PrismaClient();
 
@@ -131,3 +130,4 @@ export async function updateTutor(tutor_id: string, name: string, phone: string,
 
   return result;
 }
+
