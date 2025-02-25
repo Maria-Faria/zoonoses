@@ -38,7 +38,7 @@ phone: z.string({
 .min(10, {message: 'The telephone number must have at least 10 digits'})
 .max(15, {message: 'The phone must be a maximum of 11 digits.'}),
 cpf: CPFSchema,
-address: z.number(),
+address: z.number()
 });
 
 export const createTutor = async (tutor: Tutor) => {
