@@ -29,7 +29,7 @@ const createUserController = async (req: Request, res: Response): Promise<any> =
 
     const emailContent = `
       Olá, seu acesso ao sistema de Zoonoses foi criado.
-      Para realizar seu primeiro acesso, na <a href="http://localhost:3000/login">tela de login</a>, digite a senha abaixo para realizar o login: <br><br> <h1 style="text-align: center">${validatedUser.data.name.split(" ")[0]}#${validatedUser.data.user_code}</h1>
+      Para realizar seu primeiro acesso, na <a href="https://zoonoses.vercel.app/login">tela de login</a>, digite a senha abaixo para realizar o login: <br><br> <h1 style="text-align: center">${validatedUser.data.name.split(" ")[0]}#${validatedUser.data.user_code}</h1>
       <br><br>
       Atenciosamente, <br>
       <img src="https://i.ibb.co/6crKmrft/Design-sem-nome.png">
