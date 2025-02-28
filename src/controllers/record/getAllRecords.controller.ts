@@ -9,7 +9,7 @@ export interface RecordDataInterface {
   name_tutor: string | undefined;
   microchip: string | undefined | null;
   protocolo: number | undefined;
-  date: string | undefined;
+  date: string | undefined | Date;
 }
 
 const getAllRecordsController = async (req: Request, res: Response): Promise<any> => {
@@ -32,7 +32,7 @@ const getAllRecordsController = async (req: Request, res: Response): Promise<any
         name_tutor: tutor?.name,
         microchip: pet?.microchip,
         protocolo: pet?.protocol,
-        date: records[i].date.toLocaleDateString("pt-BR"),
+        date: records[i].date,
       });
 
     }
