@@ -32,7 +32,7 @@ const getAllRecordsController = async (req: Request, res: Response): Promise<any
         name_tutor: tutor?.name,
         microchip: pet?.microchip,
         protocolo: pet?.protocol,
-        date: records[i].date.toLocaleDateString(),
+        date: records[i].date.toLocaleDateString("pt-BR"),
       });
 
     }

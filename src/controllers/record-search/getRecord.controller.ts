@@ -25,7 +25,7 @@ const getRecordSearchController: RequestHandler = async (req, res): Promise<any>
           name_tutor: recordSearch[i].tutors.name,
           microchip: recordSearch[i].pets.microchip,
           protocolo: recordSearch[i].pets.protocol,
-          date: recordSearch[i].date.toLocaleDateString(),
+          date: recordSearch[i].date.toLocaleDateString("pt-BR"),
         });
       }
       
