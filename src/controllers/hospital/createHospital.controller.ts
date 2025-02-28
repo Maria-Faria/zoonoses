@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { getAddress, insertAddress } from "../../models/Address";
-import { getHospitals, insertHospital } from "../../models/Hospital";
+import { AddressInterface, getAddress, insertAddress } from "../../models/Address";
+import { getHospitals, HospitalInterface, insertHospital } from "../../models/Hospital";
 
 const createHospitalController = async (req: Request, res: Response): Promise<any> => {
   const { name, phone, cep, state, city, neighborhood, road, number } = req.body;
@@ -13,13 +13,13 @@ const createHospitalController = async (req: Request, res: Response): Promise<an
     let flag = false;
     let addressExists = false;
 
-    allHospitals.map((item) => {
+    allHospitals.map((item: HospitalInterface) => {
       if(item.name == name) {
         flag = true;
       }
     });
 
-    allAddresses.map((item) => {
+    allAddresses.map((item: AddressInterface) => {
       if(item.state == state && item.city == city && item.road == road && item.number == number) {
         addressExists = true;
         addressId = item.id;

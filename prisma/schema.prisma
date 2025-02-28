@@ -39,11 +39,7 @@ model pets {
   weight     Float
   pet_gender gender
   plate      Int?
-<<<<<<< HEAD
-  microchip  String?    @db.VarChar @unique
-=======
   microchip  String?    @unique @db.VarChar
->>>>>>> feature/record-search
   id_tutor   String?    @db.Uuid
   input_type input_type
   tutors     tutors?    @relation(fields: [id_tutor], references: [public_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_tutor")
@@ -51,35 +47,6 @@ model pets {
 }
 
 model records {
-<<<<<<< HEAD
-  id         Int      @id @default(autoincrement())
-  pet_id     String   @db.Uuid
-  tutor_id   String   @db.Uuid
-  price      Float    @db.Real
-  date       DateTime @default(now()) @db.Date
-
-  pets       pets     @relation(fields: [pet_id], references: [public_id])
-  tutors     tutors   @relation(fields: [tutor_id], references: [public_id])
-
-  services_records services_records[]
-}
-
-model services_records {
-  id         Int      @id @default(autoincrement())
-  service_id String   @db.Uuid
-  record_id  Int
-  qtd        Int
-
-  records    records  @relation(fields: [record_id], references: [id])
-  services   services @relation(fields: [service_id], references: [public_id])
-}
-
-model services {
-  public_id String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  type      String    @unique @db.VarChar
-  price     Float
-
-=======
   id               Int                @id @default(autoincrement())
   pet_id           String             @db.Uuid
   tutor_id         String             @db.Uuid
@@ -94,19 +61,23 @@ model services {
   public_id        String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   type             String             @unique @db.VarChar
   price            Float
->>>>>>> feature/record-search
   services_records services_records[]
+}
+
+model services_records {
+  id         Int      @id @default(autoincrement())
+  service_id String   @db.Uuid
+  record_id  Int
+  qtd        Int
+  records    records  @relation(fields: [record_id], references: [id])
+  services   services @relation(fields: [service_id], references: [public_id])
 }
 
 model tutors {
   public_id                       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   cpf                             String    @unique @db.VarChar
   name                            String    @db.VarChar
-<<<<<<< HEAD
-  phone                           String     @db.VarChar
-=======
   phone                           String    @db.VarChar
->>>>>>> feature/record-search
   address                         Int
   pets                            pets[]
   records                         records[]
@@ -136,21 +107,8 @@ model users {
   userTokens userTokens?
 }
 
-model services_records {
-  id         Int      @id @default(autoincrement())
-  service_id String   @db.Uuid
-  record_id  Int
-  qtd        Int
-  records    records  @relation(fields: [record_id], references: [id])
-  services   services @relation(fields: [service_id], references: [public_id])
-}
-
 enum gender {
-<<<<<<< HEAD
-  femea 
-=======
   femea
->>>>>>> feature/record-search
   macho
 }
 

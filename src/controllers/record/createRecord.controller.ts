@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { insertRecord, insertRecord_service } from "../../models/Record";
-import { getAddress, insertAddress } from "../../models/Address";
+import { AddressInterface, getAddress, insertAddress } from "../../models/Address";
 import { createTutor, verifyCPFInDatabase } from "../../models/Tutor";
 import { createPet, getPetByMicrochip } from "../../models/Pet";
 import { getServiceByType } from "../../models/Service";
@@ -42,7 +42,7 @@ const createRecordController = async (req: Request, res: Response): Promise<any>
       let addressExists = false;
       let addressId = 0;
   
-      allAddresses.map((item) => {
+      allAddresses.map((item: AddressInterface) => {
         if(item.state == tutor.state && item.city == tutor.city && item.road == tutor.road && item.number == tutor.number) {
           addressExists = true;
           addressId = item.id;

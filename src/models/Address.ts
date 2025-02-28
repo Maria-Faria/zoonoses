@@ -3,14 +3,14 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-export interface Address {
-  id?: number;
+export interface AddressInterface {
+  id: number;
   cep: string;
   state: string;                          
   city: string;                           
   neighborhood: string;      
   road: string; 
-  number: number;
+  number: string;
 }
 
 

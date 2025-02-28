@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { createTutor, verifyCPFInDatabase } from "../../models/Tutor";
-import { getAddress, insertAddress } from "../../models/Address";
+import { AddressInterface, getAddress, insertAddress } from "../../models/Address";
 
 export const createTutorController: RequestHandler = async (req, res) => {
   let addressId = 0;
@@ -23,7 +23,7 @@ export const createTutorController: RequestHandler = async (req, res) => {
     const allAddresses = await getAddress();
     let addressExists = false;
 
-    allAddresses.map((item) => {
+    allAddresses.map((item: AddressInterface) => {
       if(item.state == address.state && item.city == address.city && item.road == address.road && item.number == address.number) {
         addressExists = true;
         addressId = item.id;

@@ -2,6 +2,13 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+export interface HospitalInterface {
+  id: number,
+  name: string,
+  phone: string,
+  address_id: number
+}
+
 export async function insertHospital(name: string, phone: string, address_id: number) {
   const hospital = await prisma.hospital.create({
     data: {
