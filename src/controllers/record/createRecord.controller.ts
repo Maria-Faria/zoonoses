@@ -69,7 +69,7 @@ const createRecordController = async (req: Request, res: Response): Promise<any>
     return res.status(201).json({message: "Ficha cadastrada com sucesso!", id: record.id});
 
   } catch (error) {
-    return res.status(500).json({error: `${error} - Erro interno de servidor`});
+    return res.status(500).json({error: "Erro ao cadastrar ficha. Verifique as informações e tente novamente."});
   }
 }
 
