@@ -1,7 +1,6 @@
 import { RequestHandler } from "express";
 import { getRecordSearch } from "../../models/RecordSearch";
 import { RecordDataInterface } from "../record/getAllRecords.controller";
-import moment from "moment";
 
 const getRecordSearchController: RequestHandler = async (req, res): Promise<any> => {
     const filter = req.query;
@@ -26,7 +25,7 @@ const getRecordSearchController: RequestHandler = async (req, res): Promise<any>
           name_tutor: recordSearch[i].tutors.name,
           microchip: recordSearch[i].pets.microchip,
           protocolo: recordSearch[i].pets.protocol,
-          date: moment(recordSearch[i].date).format("DD/MM/YYYY"),
+          date: recordSearch[i].date,
         });
       }
       
