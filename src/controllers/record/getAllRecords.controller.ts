@@ -9,7 +9,7 @@ export interface RecordDataInterface {
   name_tutor: string | undefined;
   microchip: string | undefined | null;
   protocolo: number | undefined;
-  date: string | undefined | Date;
+  date: Date;
 }
 
 const getAllRecordsController = async (req: Request, res: Response): Promise<any> => {
