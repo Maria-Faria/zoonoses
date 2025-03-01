@@ -37,7 +37,7 @@ const getRecordController = async(req: Request, res: Response): Promise<any> => 
       })
     }
 
-    return res.status(200).json({tutor: {cpf: tutor?.cpf, name: tutor?.name, cep: address?.cep, number: address?.number, phone: tutor?.phone}, pet: {microchip: pet?.microchip, age: pet?.age, size: pet?.size_pet, inputDate: moment(pet?.input_date).format("DD/MM/YYYY"), specie: pet?.specie, breed: pet?.breed, color: pet?.color, weight: pet?.weight, gender: pet?.pet_gender, plate: pet?.plate}, services: servicesList, totalPrice: record.price});
+    return res.status(200).json({tutor: {cpf: tutor?.cpf, name: tutor?.name, cep: address?.cep, number: address?.number, phone: tutor?.phone}, pet: {microchip: pet?.microchip, age: pet?.age, size: pet?.size_pet, inputDate: moment(pet?.input_date).format("YYYY-MM-DD"), specie: pet?.specie, breed: pet?.breed, color: pet?.color, weight: pet?.weight, gender: pet?.pet_gender, plate: pet?.plate}, services: servicesList, totalPrice: record.price});
     
   } catch (error) {
     return res.status(500).json({error: `${error} - Erro interno de servidor`});
