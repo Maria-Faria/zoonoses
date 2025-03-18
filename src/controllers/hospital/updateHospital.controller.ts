@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { AddressInterface, getAddress, insertAddress } from "../../models/Address";
-import { getHospitals, HospitalInterface, insertHospital, updateHospital } from "../../models/Hospital";
+import { getHospitalByName, getHospitals, HospitalInterface, insertHospital, updateHospital } from "../../models/Hospital";
 
 const updateHospitalController = async (req: Request, res: Response): Promise<any> => {
   const { name, phone, cep, state, city, neighborhood, road, number } = req.body;
