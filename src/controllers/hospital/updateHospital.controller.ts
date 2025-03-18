@@ -22,6 +22,12 @@ const updateHospitalController = async (req: Request, res: Response): Promise<an
         const hospitalAddress = await insertAddress(cep, state, city, neighborhood, road, number);
         addressId = hospitalAddress.data.id;
     }
+
+    const hospitalData = await getHospitalByName(name);
+    
+    if(!hospitalData) {
+      return res.status(404).json({error: "Clínica não encontrada!"});
+    }
       
     const hospital = await updateHospital(name, phone, addressId);
 

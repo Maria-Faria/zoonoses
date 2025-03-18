@@ -25,13 +25,11 @@ export async function insertHospital(name: string, phone: string, address_id: nu
   return hospital;
 }
 
-export async function updateHospital(name: string, phone: string, address_id: number) {
-  const hospital = await prisma.hospital.updateMany({
+export async function updateHospital(id: number, phone: string, address_id: number) {
+  const hospital = await prisma.hospital.update({
     where: {
-      name: {
-        contains: name,
-        mode: "insensitive"
-      }},
+      id
+    },
     data: {
       phone,
       address_id
@@ -48,13 +46,11 @@ export async function getHospitals() {
   return hospitals;
 }
 
-export async function deleteHospital(name: string) {
-  const hospital = await prisma.hospital.deleteMany({
+export async function deleteHospital(id: number) {
+  const hospital = await prisma.hospital.delete({
     where: {
-      name: {
-        contains: name,
-        mode: "insensitive"
-      }}
+      id
+    }
   });
 
   return hospital;
@@ -68,6 +64,7 @@ export async function getHospitalByName(name: string) {
         mode: "insensitive"
       }},
     select: {
+      id: true,
       name: true,
       phone: true,
       address_id: true

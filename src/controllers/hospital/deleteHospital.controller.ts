@@ -12,7 +12,7 @@ const deleteHospitalController = async (req: Request, res: Response): Promise<an
       return res.status(404).json({error: "Clínica não encontrada!"});
     }
 
-    await deleteHospital(hospitalData.name);
+    await deleteHospital(hospitalData.id);
 
     return res.status(200).json({message: "Clínica deletada com sucesso!"});
     
