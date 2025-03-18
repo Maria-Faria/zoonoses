@@ -25,10 +25,39 @@ export async function insertHospital(name: string, phone: string, address_id: nu
   return hospital;
 }
 
+export async function updateHospital(name: string, phone: string, address_id: number) {
+  const hospital = await prisma.hospital.updateMany({
+    where: {
+      name: {
+        contains: name,
+        mode: "insensitive"
+      }},
+    data: {
+      phone,
+      address_id
+    }
+    
+  });
+
+  return hospital;
+}
+
 export async function getHospitals() {
   const hospitals = await prisma.hospital.findMany();
 
   return hospitals;
+}
+
+export async function deleteHospital(name: string) {
+  const hospital = await prisma.hospital.deleteMany({
+    where: {
+      name: {
+        contains: name,
+        mode: "insensitive"
+      }}
+  });
+
+  return hospital;
 }
 
 export async function getHospitalByName(name: string) {
