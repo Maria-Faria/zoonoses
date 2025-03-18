@@ -9,7 +9,7 @@ const refreshTokenController = async (req: Request, res: Response): Promise<any>
   try {
     const user = verify(refreshToken, process.env.REFRESH_TOKEN_KEY || "123456") as JwtPayload;
 
-    const newAccessToken = await getToken(user.user_code, user.name, user.sub, "5m", process.env.ACCESS_TOKEN_KEY as string);
+    const newAccessToken = await getToken(user.user_code, user.name, user.sub, "30m", process.env.ACCESS_TOKEN_KEY as string);
 
     return res.status(200).json({ accessToken: newAccessToken });
     
