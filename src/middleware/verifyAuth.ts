@@ -8,7 +8,6 @@ export async function verifyAuth(req: Request, res: Response, next: Function) {
     const [, token] = authToken.split(' ');
 
     try {
-      
       verify(token, process.env.ACCESS_TOKEN_KEY as string);      
       return next();
 

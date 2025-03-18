@@ -15,6 +15,7 @@ export interface AddressInterface {
 
 
 export async function insertAddress(cep:string, state: string, city: string, neighborhood: string, road: string, number: string) {
+  console.log(cep, state, city, neighborhood, road, number)
   const address = await prisma.address.create({
     data: {
       cep,

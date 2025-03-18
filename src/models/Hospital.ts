@@ -30,3 +30,20 @@ export async function getHospitals() {
 
   return hospitals;
 }
+
+export async function getHospitalByName(name: string) {
+  const hospital = await prisma.hospital.findFirst({
+    where: {
+      name: {
+        contains: name,
+        mode: "insensitive"
+      }},
+    select: {
+      name: true,
+      phone: true,
+      address_id: true
+    }
+  });
+
+  return hospital;
+}
