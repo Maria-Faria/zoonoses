@@ -6,6 +6,7 @@ import getCodeController from "../controllers/user/reset-senha/getCode.controlle
 import verifyCodeController from "../controllers/user/reset-senha/verifyCode.controller";
 import updatePasswordController from "../controllers/user/reset-senha/updatePassword.controller";
 import getUserController from "../controllers/user/getUser.controller";
+import updateUserController from "../controllers/user/updateUser.Controller";
 
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.post("/new-password", updatePasswordController);
 
 router.get("/dashboard", verifyAuth, getUserController);
 router.post("/new-user", verifyAuth, verifyRole, createUserController);
+router.get("/update-user", verifyAuth, updateUserController);
 
 
 export default router;

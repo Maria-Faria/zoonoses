@@ -87,6 +87,23 @@ export async function getUserById(public_id: string) {
   return user;
 }
 
+export async function updateUser(public_id: string, name: string) {
+  const user = await prisma.users.update({
+    where: { public_id },
+    select: {
+      public_id: true,
+      user_code: true,
+      name: true,
+      admin: true
+    },
+    data: {
+      name: name
+    }
+  });
+
+  return user;
+}
+
 export async function saveCodeResetPassword(email: string, code: string) {
   await prisma.userResetPassword.create({
     data: {
