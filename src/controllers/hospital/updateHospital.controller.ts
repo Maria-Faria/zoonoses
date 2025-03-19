@@ -8,7 +8,6 @@ const updateHospitalController = async (req: Request, res: Response): Promise<an
 
   try {
     const allAddresses = await getAddress();
-
     let addressExists = false;
 
     allAddresses.map((item: AddressInterface) => {
@@ -29,7 +28,7 @@ const updateHospitalController = async (req: Request, res: Response): Promise<an
       return res.status(404).json({error: "Clínica não encontrada!"});
     }
       
-    const hospital = await updateHospital(name, phone, addressId);
+    const hospital = await updateHospital(hospitalData.id, phone, addressId);
 
     if(!hospital) {
         return res.status(400).json({error: "Erro ao atualizar a clínica!"});

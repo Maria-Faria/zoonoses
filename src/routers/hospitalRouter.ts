@@ -10,9 +10,8 @@ const router = express.Router();
 router.get("/search-hospital", verifyAuth, getHospitalController);
 
 router.post("/new-hospital", createHospitalController);
+router.post("/update-hospital", verifyAuth,updateHospitalController);
 
-router.post("/update-hospital", updateHospitalController);
-
-router.delete("/delete-hospital", deleteHospitalController);
+router.delete("/delete-hospital", verifyAuth, deleteHospitalController);
 
 export default router;
