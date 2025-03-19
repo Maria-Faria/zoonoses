@@ -64,8 +64,13 @@ export async function getRecordById(id: number) {
   return record;
 }
 
-export async function getAllRecords() {
-  const records = await prisma.records.findMany({});
+export const getAllRecords = async (limit: number, offset: number) => {
+  const records = await prisma.records.findMany({
+    skip: offset,
+    take: limit,
+  });
 
-  return records;
-}
+  const total = await prisma.records.count();
+
+  return { records, total };
+};

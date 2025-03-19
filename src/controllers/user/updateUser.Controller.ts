@@ -9,9 +9,13 @@ const updateUserController = async (req: Request, res: Response): Promise<any> =
     try {
         const [, token] = authToken.split(' ');
         const { sub } = verify(token, process.env.ACCESS_TOKEN_KEY || "123456") as JwtPayload;
-        const Datauser = await getUserById(sub as string);
+        const dataUser = await getUserById(sub as string);
+        
+        if (!dataUser) {
+            return res.status(404).json({ error: "Usuário não encontrado!" });
+        }
     
-        const user = await updateUser(Datauser.public_id, Datauser.name);
+        const user = await updateUser(dataUser.public_id, dataUser.name);
       
         if(!user) {
             return res.status(400).json({error: "Erro ao atualizar o usuário!"});
