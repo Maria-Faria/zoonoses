@@ -45,15 +45,12 @@ const getAllRecordsController = async (req: Request, res: Response): Promise<any
     }
 
     return res.status(200).json({
-      totalRecords: total,
-      totalPages: Math.ceil(total / limit),
-      currentPage: page,
-      recordsPerPage: limit,
-      records: recordList,
+      recordList,
+      totalPage: Math.ceil(total / limit),
     });
 
   } catch (error) {
-    return res.status(500).json({ error: `${error} - Erro interno de servidor` });
+    return res.status(500).json({ error: `Erro interno de servidor` });
   }
 };
 

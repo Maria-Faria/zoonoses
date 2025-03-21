@@ -80,7 +80,8 @@ export async function getUserById(public_id: string) {
       public_id: true,
       user_code: true,
       name: true,
-      admin: true
+      admin: true,
+      email: true
     }
   });
 
@@ -99,6 +100,27 @@ export async function updateUser(public_id: string, name: string) {
     data: {
       name: name
     }
+  });
+
+  return user;
+}
+
+export async function updateUserByCode(user_code: string, name: string, email: string, newCode: string) {
+  const user = await prisma.users.update({
+    where: {user_code},
+    data: {
+      name,
+      email,
+      user_code: newCode
+    }
+  });
+
+  return user;
+}
+
+export async function deleteUser(user_code: string) {
+  const user = await prisma.users.delete({
+    where: { user_code }
   });
 
   return user;

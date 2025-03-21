@@ -15,7 +15,8 @@ const getUserController = async (req: Request, res: Response): Promise<any> => {
         public_id: user?.public_id,
         user_code: user?.user_code,
         name: user?.name,
-        admin: user?.admin
+        admin: user?.admin,
+        email: user?.email
       });
   
     } catch (error) {

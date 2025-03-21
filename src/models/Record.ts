@@ -68,6 +68,9 @@ export const getAllRecords = async (limit: number, offset: number) => {
   const records = await prisma.records.findMany({
     skip: offset,
     take: limit,
+    orderBy: {
+      id: "desc"
+    }
   });
 
   const total = await prisma.records.count();
